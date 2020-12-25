@@ -2,10 +2,11 @@ var emoji = ['😤', '😬', '🙄', '😂', '🤤', '😨', '🥶', '🤬', '�
 var EmojiBot = function(context) {
 	var dataText = context.text.split(' ')
 	for (var itemIndex = 1; itemIndex < dataText.length; itemIndex += 2) {
-		dataText.splice(itemIndex, 0, emoji[getRandom(emoji.length - 1)].repeat(4));
+		dataText.splice(itemIndex, 0, emoji[getRandom(emoji.length)].repeat(4));
 	}
+	
 	context.editMessage({
-		message: `${dataText.join(" ")} ${emoji[getRandom(emoji.length-1)].repeat(3)}${emoji[getRandom(emoji.length-1)].repeat(3)}${emoji[getRandom(emoji.length-1)].repeat(3)}`
+		message: `${dataText.join(" ")} ${emoji[getRandom(emoji.length)].repeat(3)}${emoji[getRandom(emoji.length)].repeat(3)}${emoji[getRandom(emoji.length)].repeat(3)}`
 	})
 }
 
