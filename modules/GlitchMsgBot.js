@@ -17,8 +17,10 @@ var GlitchMsgBot = function(context) {
 	for (let i = 0; i < a.length; i = i + 2) {
 		a[i] = a[i].toUpperCase()
 	}
+	if (context.text != a.join('')){
 	context.editMessage({
 		message: a.join('')
 	})
+	}
 }
 module.exports = GlitchMsgBot;
