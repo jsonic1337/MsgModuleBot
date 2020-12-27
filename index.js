@@ -2,6 +2,7 @@ var EmojiBot = require('./modules/EmojiBot.js');
 var GlitchMsgBot = require('./modules/GlitchMsgBot.js');
 var GachiBot = require('./modules/GachiBot.js');
 var VKmeFunc = require('./modules/VKmeFunc.js');
+var TickerBot = require('./modules/TickerBot.js');
 var config = require('./config.js');
 
 
@@ -17,7 +18,8 @@ var commands = {
 	'emoji': config.emoji,
 	'glitch': config.glitch,
 	'gachi': config.gachi,
-	'vkme': config.vkme
+	'vkme': config.vkme,
+	'ticker': config.ticker
 }
 var m_id = 0;
 var set = false;
@@ -51,7 +53,10 @@ vk.updates.on('message', (context, next) => {
 		GachiBot(context);
 		m_id = context.id;
 	} else if (m_id != context.id && set == 'vkme') {
-		VKmeFunc(context, config.vkme_command, config.regex, config.TOKEN);
+		VKmeFunc(context, config.vkme_command, config.regex, config.offline, config.online, config.TOKEN);
+		m_id = context.id;
+	} else if (m_id != context.id && set == 'ticker') {
+		TickerBot(context, config.pref_ticker);
 		m_id = context.id;
 	}
 })
