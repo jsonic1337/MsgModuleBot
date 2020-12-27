@@ -1,5 +1,5 @@
 var request = require('request');
-var VKmeFunc = function(context, command, regex, TOKEN) {
+var VKmeFunc = function(context, command, regex, cm_of, cm_on, TOKEN) {
     var online = {
         url: `https://api.vk.me/method/account.setPrivacy?v=5.109&key=online&value=all&access_token=${TOKEN}`,
         headers: {
@@ -12,12 +12,12 @@ var VKmeFunc = function(context, command, regex, TOKEN) {
             'User-Agent': 'VKAndroidApp/1.777-777 (Android 777; SDK 777; jsonic; 1; ru; 777x777)'
         }
     }
-	if (context.text == '!офлайн') {
+	if (context.text == cm_of) {
 		request(offline, callback);
         context.editMessage({
             message: 'Невидимка включена!'
         })
-	} else if (context.text == '!онлайн') {
+	} else if (context.text == cm_on) {
         request(online, callback);
         context.editMessage({
             message: 'Невидимка выключена!'
