@@ -3,7 +3,7 @@ gachiMassive = ['♂THREE HUNDRED BUCKS♂', '♂dungeon Master♂', '♂ass we 
 var GachiBot = function(context) {
 	var dataText = context.text.split(' ')
 	for (var itemIndex = 1; itemIndex < dataText.length; itemIndex += 2) {
-		if (getRandom(3) == 2) {
+		if (getRandom(3) >= 2) {
         dataText.splice(itemIndex, 0, gachiMassive[getRandom(gachiMassive.length)]);
         }
 	}
