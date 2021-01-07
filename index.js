@@ -1,58 +1,47 @@
-var EmojiBot = require('./modules/EmojiBot.js');
-var GlitchMsgBot = require('./modules/GlitchMsgBot.js');
-var GachiBot = require('./modules/GachiBot.js');
-var VKmeFunc = require('./modules/VKmeFunc.js');
-var TickerBot = require('./modules/TickerBot.js');
-var config = require('./config.js');
-const {
-	VK
-} = require('vk-io');
-const vk = new VK({
-	token: config.TOKEN
-});
+var EmojiBot = require('./modules/EmojiBot.js'),
+    GlitchMsgBot = require('./modules/GlitchMsgBot.js'),
+    GachiBot = require('./modules/GachiBot.js'),
+    VKmeFunc = require('./modules/VKmeFunc.js'),
+    TickerBot = require('./modules/TickerBot.js'),
+    config = require('./config.js');
+const { VK } = require('vk-io');
+const vk = new VK({ token: config.TOKEN });
 var commands = {
-	'emoji': config.emoji,
-	'glitch': config.glitch,
-	'gachi': config.gachi,
-	'vkme': config.vkme,
-	'ticker': config.ticker
+	[config.emoji]: 'emoji',
+	[config.glitch]: 'glitch',
+	[config.gachi]: 'gachi',
+	[config.vkme]: 'vkme',
+	[config.ticker]: 'ticker'
 }
-var set = false;
 vk.updates.start();
 vk.updates.on('message', (context, next) => {
-	if (context.hasText == false || context.isOutbox == false || context.hasAttachments() == true || context.subTypes[0] != 'message_new') return
-	m_id = false
-	if (Object.values(commands).includes(context.text)) {
-		set = getKeyByValue(commands, context.text)
-		context.deleteMessage({
-			message_ids: context.id,
-			delete_for_all: 1
-		})
-		m_id = true
+	if (!context.hasText || !context.isOutbox || context.hasAttachments() || context.subTypes[0] != 'message_new') return
+	if (Object.keys(commands).includes(context.text)) {
+	   set = 'switchSet'
+		delMsg(context)
 	} else if (context.text == config.off) {
 		set = false
-		context.deleteMessage({
-			message_ids: context.id,
-			delete_for_all: 1
-		})
+		delMsg(context)
 	}
-	if (m_id == true) return
 	switch (set) {
-		case "emoji":
+		case 'emoji':
 			EmojiBot(context);
 			break;
-		case "glitch":
+		case 'glitch':
 			GlitchMsgBot(context);
 			break;
-		case "gachi":
+		case 'gachi':
 			GachiBot(context);
 			break;
-		case "vkme":
+		case 'vkme':
 			VKmeFunc(context, config.vkme_command, config.regex, config.offline, config.online, config.TOKEN);
 			break;
-		case "ticker":
+		case 'ticker':
 			TickerBot(context, config.pref_ticker);
+			break;
+		case 'switchSet':
+			set = commands[context.text]
 			break;
 	}
 })
-const getKeyByValue = (obj, value) => Object.keys(obj).find(key => obj[key] === value);
+function delMsg(context){ context.deleteMessage({ message_ids: context.id, delete_for_all: 1 }) };
