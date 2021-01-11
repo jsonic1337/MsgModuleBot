@@ -6,7 +6,7 @@ var EmojiBot = function(context) {
 	}
 	
 	context.editMessage({
-		message: `${dataText.join(" ")} ${emoji[getRandom(emoji.length)].repeat(3)}${emoji[getRandom(emoji.length)].repeat(3)}${emoji[getRandom(emoji.length)].repeat(3)}`
+		message: `${dataText.join(" ")} ${emoji[getRandom(emoji.length)].repeat(4)}}`
 	})
 }
 
